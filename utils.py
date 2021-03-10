@@ -6,8 +6,13 @@ class Position:
         self.y = y
 
     def __eq__(self, other):
+        # print("comparing: ", self, " with ", other, " will return ", self.x == other.x and self.y == other.y)
         return self.x == other.x and self.y == other.y
     def __hash__(self):
+        # print("hashing pos: ", self)
+        return hash((self.x, self.y))
+
+    def __sortkey__(self):
         return hash((self.x, self.y))
 
     def __copy__(self):
@@ -35,9 +40,14 @@ class Config:
         self.boxes = boxes
 
     def __eq__(self, other):
+        # print("comparing: ", self, " with ", other, " will return ", self.player == other.player and self.boxes == other.boxes)
         return self.player == other.player and self.boxes == other.boxes
     def __hash__(self):    
+        # print("hashing cfg: ", self)
         return hash((self.player, frozenset(self.boxes)))
+
+    def __sortkey__(self):
+        return hash((self.x, self.y))
     
     def __copy__(self):
         cls = self.__class__
@@ -59,10 +69,11 @@ class Config:
 
 
 class Node:
-    def __init__(self, config, father, children):
+    def __init__(self, config, father, children, depth = None):
         self.config = config
         self.father = father
         self.children = children
+        self.depth = depth
     
 
 class Level:

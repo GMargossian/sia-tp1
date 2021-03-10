@@ -73,19 +73,17 @@ def next_configs(config, smap):
                 #tengo que fijarme si una mas en la misma direccion hay o una pared o una caja
                 if smap_wb[player.x + 2*i, player.y + 2*j] != constants.WALL and smap_wb[player.x + 2*i, player.y + 2*j] != constants.BOX and (not box_becomes_immovable([player.x + 2*i, player.y + 2*j], smap) or smap_wb[player.x + 2*i, player.y + 2*j] == constants.GOAL):
                     # me fijo si la caja que movi quedo en una posicion inganable, de ser asi no se mete el caso
-                    new_boxes = copy.deepcopy(boxes)
 
                     new_box_pos = Position(player.x + 2*i, player.y + 2*j)
                     
-                    for box in new_boxes:
-                        if box.x == new_pos.x and box.y == new_pos.y:
-                            box.x = player.x + 2*i
-                            box.y = player.y + 2*j
+                    for i in range(0, len(new_boxes)):
+                        if new_boxes[i] == new_pos:
+                            new_boxes[i] = new_box_pos
 
                     # print("Box Moving Config --> ", Config(new_pos, new_boxes))
 
                     # me muevo a mi y a la caja
-                    configs.add(Config(new_pos, new_boxes))                    
+                    configs.add(Config(new_pos, set(new_boxes)))                    
             #no hay una caja (hay un espacio vacio)
             else:
                 # print("No Box Moving Config --> ", Config(new_pos, copy.deepcopy(boxes)))
@@ -134,6 +132,8 @@ def simple_printing(smap, positions):
         smap_wbp[i] = smap_wbp[i].copy()
         
     print(positions)
+    
+    print("frozen: ", frozenset(positions.boxes))
 
     #create an auxiliar map with box information for faster checks
     for box in positions.boxes:

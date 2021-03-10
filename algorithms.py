@@ -1,14 +1,16 @@
-import bfs
+import bfs, dfs, iddfs
 
 def BFS(level):
     print('BFS')
     return bfs.bfs(level)
 
 def DFS(level):
-	print('DFS')
+    print('DFS')
+    return dfs.dfs(level)
 
 def IDDFS(level):
-	print('IDDFS')
+    print('IDDFS')
+    return iddfs.iddfs(level)
 
 def GGS(level):
 	print('GGS')
@@ -25,7 +27,7 @@ algorithms = [
         "func": BFS,
     },
     {
-        "name": "Depth First Search (DFS)",
+        "name": dfs.ALGORITHM_NAME,
         "func": DFS,
     },
     {

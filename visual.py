@@ -55,19 +55,32 @@ def play(smap, path):
     game_over = False
 
     sq = max(smap.shape[0], smap.shape[1])
-        
     block_size = math.floor(WINDOW_SIZE/sq)
-    
     clock = pygame.time.Clock()
-    
-    game_speed = 30
-
+    game_speed = 60
     current_idx = 0
 
+    pygame.init()
+    font = pygame.font.Font('freesansbold.ttf', 20)
+
     while not game_over:
+        # keys = pygame.key.get_pressed()
+        # if keys[K_LEFT]:
+        #     if current_idx > 0:
+        #         current_idx -= 1
+        # if keys[K_RIGHT]:
+        #     if current_idx < len(path) - 1:
+        #         current_idx += 1
+
         draw_tiles(dis, smap, path[current_idx], block_size)
-        pygame.display.update()
+
         clock.tick(game_speed)
+
+        text_to_display = "Moves: %d" % current_idx
+        text = font.render(text_to_display, True, white)
+        text.set_alpha(127)
+        dis.blit(text, (10, 10))
+        pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -80,9 +93,8 @@ def play(smap, path):
                     if current_idx < len(path) - 1:
                         current_idx += 1
                     elif current_idx == len(path) - 1: 
-                        won = True
+                        game_over = True
                         continue
     
     pygame.quit()
     quit()
-  
